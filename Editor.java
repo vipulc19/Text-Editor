@@ -13,7 +13,7 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 	Button b11,b12,b13;
 	int count=0; //To check whether file is saved or not(Warning).
 	int k=0;	//Different functions of b2.
-	int flag1,flag2; //For Replace & Replace all..
+	int flag1,flag2; //For Replace & Replace all.
 	int flag3=0;
 	int flag=0;
 	Writer w;
