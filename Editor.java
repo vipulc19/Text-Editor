@@ -225,7 +225,7 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 
 		B1:if(e1.getSource()==b1) //Save Button
 		{
-			if(flag11==0)         //File is not saved.
+			if(flag11==0)         //File was not saved.
 			{
 				FileDialog fd=new FileDialog(f,"SELECT",FileDialog.SAVE);
 				d.setVisible(false);
