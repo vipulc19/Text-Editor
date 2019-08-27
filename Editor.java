@@ -1,16 +1,17 @@
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PrinterException;
 import java.util.regex.*;
 import javax.swing.*;
 class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyListener
 {
 	JFrame f;	JMenuBar mb; JMenu m1,m2;
-	JMenuItem nw,opn,sve,svea,ext,fnd,rep;
-	JTextArea t;		TextField tf,tf1,tf2;
-	Dialog d,d1,d2,d3;
-	Dialog d11;
-	Button b1,b2,b3,b4,b5,b6,b7,b8,b9;
+	JMenuItem nw,opn,sve,svea,ext,fnd,rep,prt;
+	JTextArea t;		JTextField tf,tf1,tf2;
+	JDialog d,d1,d2,d3;
+	JDialog d11;
+	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9;
 	JButton b11,b12,b13;
 	int count=0; //To check whether file is saved or not(Warning).
 	int k=0;	//Different functions of b2.
@@ -38,30 +39,32 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 		sve=new JMenuItem("Save");		svea=new JMenuItem("Save As..");
 		ext=new JMenuItem("Exit");		fnd=new JMenuItem("Find");
 		rep=new JMenuItem("Find & Replace");
+		prt=new JMenuItem("Print");
 		nw.addActionListener(this);		opn.addActionListener(this);
 		sve.addActionListener(this);	svea.addActionListener(this);
 		ext.addActionListener(this);	fnd.addActionListener(this);
+		prt.addActionListener(this);
 		rep.addActionListener(this);	
-		m1.add(nw);		m1.add(opn);	m1.add(sve);	m1.add(svea);
-		m1.addSeparator();				m1.add(ext);
+		m1.add(nw);		m1.add(opn);	m1.add(sve);	m1.add(svea);	m1.add(prt);
+		m1.addSeparator();				m1.add(ext);	
 		m2.add(fnd);	m2.add(rep);
 		mb.add(m1);		mb.add(m2);
 		f.setJMenuBar(mb);
 		f.add(t);
-		d=new Dialog(f,"Editor");
+		d=new JDialog(f,"Editor");
 		d.setSize(300,100); 
 		d.setLayout(new GridBagLayout());
 		GridBagConstraints gbc=new GridBagConstraints();
 		gbc.weightx=1.0;	gbc.weighty=1.0;
 		Label l1=new Label("Do you want to save changes:");
 		gbc.gridx=0;		gbc.gridy=0;	d.add(l1,gbc);
-		b1=new Button("Save");			b1.addActionListener(this);
+		b1=new JButton("Save");			b1.addActionListener(this);
 		gbc.gridx=0;		gbc.gridy=1;	d.add(b1,gbc);
-		b2=new Button("Don't Save");	b2.addActionListener(this);
+		b2=new JButton("Don't Save");	b2.addActionListener(this);
 		gbc.gridx=1;		gbc.gridy=1;	d.add(b2,gbc);
-		b3=new Button("Cancel");		b3.addActionListener(this);
+		b3=new JButton("Cancel");		b3.addActionListener(this);
 		gbc.gridx=3;		gbc.gridy=1;	d.add(b3,gbc);
-		d3=new Dialog(f,"Error");
+		d3=new JDialog(f,"Error");
 		d3.setSize(200,80);
 		d3.setLayout(new GridLayout());
 		GridBagConstraints gbc1=new GridBagConstraints();gbc1.weightx=1.0;gbc1.weighty=1.0;
@@ -70,7 +73,7 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 		d3.addWindowListener(w2);
 		d.addWindowListener(w1);
 		
-		d11=new Dialog(f,"Editor");
+		d11=new JDialog(f,"Editor");
 		d11.setSize(300,100);
 		d11.setLayout(new GridBagLayout());
 		Label l2=new Label("Do you want to save changes:");
@@ -207,7 +210,18 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 				System.out.print(e3.getMessage());
 			}
 
-		}	
+		}
+		
+		if(e1.getSource()==prt)
+		{
+			try {
+				t.print();
+			}
+			catch (PrinterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		if(e1.getSource()==ext)
 		{
@@ -439,18 +453,18 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 				{
 					break Find;
 				}
-			d1=new Dialog(f,"Find");
+			d1=new JDialog(f,"Find");
 			d1.setSize(300,100); 
 			d1.setLayout(new GridBagLayout());
 			GridBagConstraints gbc=new GridBagConstraints();
 			gbc.weightx=1.0;	gbc.weighty=1.0;
-			Label l1=new Label("Find what:");
+			JLabel l1=new JLabel("Find what:");
 			gbc.gridx=0;		gbc.gridy=0;	d1.add(l1,gbc);
-			tf=new TextField(16);
+			tf=new JTextField(16);
 			gbc.gridx=1;		gbc.gridy=0;	d1.add(tf, gbc);		
-			b4=new Button("Find Next");			b4.addActionListener(this);
+			b4=new JButton("Find Next");			b4.addActionListener(this);
 			gbc.gridx=0;		gbc.gridy=1;	d1.add(b4,gbc);
-			b5=new Button("Cancel");	b5.addActionListener(this);
+			b5=new JButton("Cancel");	b5.addActionListener(this);
 			gbc.gridx=1;		gbc.gridy=1;	d1.add(b5,gbc);
 			d1.setVisible(true);
 			d1.addWindowListener(w2);
@@ -485,26 +499,26 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 		if(e1.getSource()==rep)
 		{
 			t.addMouseListener(this);
-			d2=new Dialog(f,"Replace");
+			d2=new JDialog(f,"Replace");
 			d2.setSize(300,100); 
 			d2.setLayout(new GridBagLayout());
 			GridBagConstraints gbc=new GridBagConstraints();
 			gbc.weightx=1.0;	gbc.weighty=1.0;
 			Label l1=new Label("Find what:");
 			gbc.gridx=0;		gbc.gridy=0;	d2.add(l1,gbc);
-			tf1=new TextField(16);
+			tf1=new JTextField(16);
 			gbc.gridx=1;		gbc.gridy=0;	d2.add(tf1, gbc);
 			Label l2=new Label("Replace with:");
 			gbc.gridx=0;		gbc.gridy=1;	d2.add(l2,gbc);
-			tf2=new TextField(16);
+			tf2=new JTextField(16);
 			gbc.gridx=1;		gbc.gridy=1;	d2.add(tf2,gbc);
-			b6=new Button("Find Next");			b6.addActionListener(this);
+			b6=new JButton("Find Next");			b6.addActionListener(this);
 			gbc.gridx=2;		gbc.gridy=0;	d2.add(b6,gbc);
-			b7=new Button("Replace");			b7.addActionListener(this);
+			b7=new JButton("Replace");			b7.addActionListener(this);
 			gbc.gridx=2;		gbc.gridy=1;	d2.add(b7,gbc);
-			b8=new Button("Replace All");		b8.addActionListener(this);
+			b8=new JButton("Replace All");		b8.addActionListener(this);
 			gbc.gridx=2;		gbc.gridy=2;	d2.add(b8,gbc);
-			b9=new Button("Cancel");			b9.addActionListener(this);
+			b9=new JButton("Cancel");			b9.addActionListener(this);
 			gbc.gridx=1;		gbc.gridy=2;	d2.add(b9,gbc);
 			d2.setVisible(true);
 			d2.addWindowListener(w2);
