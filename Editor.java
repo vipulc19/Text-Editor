@@ -4,8 +4,7 @@ import java.awt.event.*;
 import java.awt.print.PrinterException;
 import java.util.regex.*;
 import javax.swing.*;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.OceanTheme;
+
 class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyListener
 {
 	JFrame f;	JMenuBar mb; JMenu m1,m2;
@@ -33,11 +32,8 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 		f=new JFrame();		f.setSize(400,300);
 		f.addWindowListener(this);
 		t=new JTextArea();
-		Font font = new Font("Comic Sans MS", Font.PLAIN, 20);
+		Font font = new Font("Comic Sans MS", Font.PLAIN, 16);
 	    t.setFont(font);
-		sp=new JScrollPane(t,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		f.getContentPane().add(sp);
-		//sp.setVisible(true);
 		t.addKeyListener(this);
 		mb=new JMenuBar();
 		m1=new JMenu("File");
@@ -63,6 +59,8 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 		mb.add(m1);		mb.add(m2);
 		f.setJMenuBar(mb);
 		f.add(t);
+		sp=new JScrollPane(t,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		f.getContentPane().add(sp);
 		d=new JDialog(f,"Editor");
 		d.setSize(300,100); 
 		d.setLayout(new GridBagLayout());
