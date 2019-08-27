@@ -4,10 +4,12 @@ import java.awt.event.*;
 import java.awt.print.PrinterException;
 import java.util.regex.*;
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.OceanTheme;
 class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyListener
 {
 	JFrame f;	JMenuBar mb; JMenu m1,m2;
-	JMenuItem nw,opn,sve,svea,ext,fnd,rep,prt;
+	JMenuItem nw,opn,sve,svea,ext,fnd,rep,prt,cut,copy,paste;
 	JTextArea t;		JTextField tf,tf1,tf2;
 	JDialog d,d1,d2,d3;
 	JDialog d11;
@@ -25,29 +27,39 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 	int flag12=0; //For Text Value changed conflict in save.
 	WindowCloser w1=new WindowCloser();
 	WindowCloser w2=new WindowCloser();
-
+	JScrollPane sp;
 	public Editor()
 	{
 		f=new JFrame();		f.setSize(400,300);
 		f.addWindowListener(this);
 		t=new JTextArea();
+		Font font = new Font("Comic Sans MS", Font.PLAIN, 20);
+	    t.setFont(font);
+		sp=new JScrollPane(t,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		f.getContentPane().add(sp);
+		//sp.setVisible(true);
 		t.addKeyListener(this);
 		mb=new JMenuBar();
 		m1=new JMenu("File");
 		m2=new JMenu("Edit");
-		nw=new JMenuItem("New");			opn=new JMenuItem("Open");
+		nw=new JMenuItem("New");		opn=new JMenuItem("Open");
 		sve=new JMenuItem("Save");		svea=new JMenuItem("Save As..");
 		ext=new JMenuItem("Exit");		fnd=new JMenuItem("Find");
 		rep=new JMenuItem("Find & Replace");
 		prt=new JMenuItem("Print");
+		cut=new JMenuItem("Cut");	copy=new JMenuItem("Copy");	paste=new JMenuItem("Paste");
+		
 		nw.addActionListener(this);		opn.addActionListener(this);
 		sve.addActionListener(this);	svea.addActionListener(this);
 		ext.addActionListener(this);	fnd.addActionListener(this);
-		prt.addActionListener(this);
-		rep.addActionListener(this);	
+		prt.addActionListener(this);	cut.addActionListener(this);
+		rep.addActionListener(this);	copy.addActionListener(this);
+		paste.addActionListener(this);
+		
 		m1.add(nw);		m1.add(opn);	m1.add(sve);	m1.add(svea);	m1.add(prt);
 		m1.addSeparator();				m1.add(ext);	
-		m2.add(fnd);	m2.add(rep);
+		m2.add(cut);	m2.add(copy);	m2.add(paste);
+		m2.addSeparator(); m2.add(fnd);	m2.add(rep);
 		mb.add(m1);		mb.add(m2);
 		f.setJMenuBar(mb);
 		f.add(t);
@@ -85,6 +97,7 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 		b13=new JButton("Cancel");		b13.addActionListener(this);
 		gbc.gridx=3;		gbc.gridy=1;	d11.add(b13,gbc);
 		d11.addWindowListener(w1);
+		
 		f.setVisible(true);
 	}
 
@@ -122,10 +135,11 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 				try
 				{
 					FileInputStream fis=new FileInputStream(path+name);
+					BufferedInputStream bis=new BufferedInputStream(fis);
 					int ch;
-					while((ch=fis.read())!=-1)		
+					while((ch=bis.read())!=-1)		
 						t.setText(""+t.getText()+(char)ch);
-					fis.close();
+					bis.close();
 					count=0;
 					flag11=1;
 				}	
@@ -591,6 +605,15 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 			d2.setVisible(false);
 			d2.dispose();
 		}
+		
+		if(e1.getSource()==cut)
+			t.cut();
+		
+		if(e1.getSource()==copy)
+			t.copy();
+		
+		if(e1.getSource()==paste)
+			t.paste();
 
 	}
 //----------------------------------------------------------------------------------------
