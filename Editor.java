@@ -9,7 +9,7 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 {
 	JFrame f;	JMenuBar mb; JMenu m1,m2;
 	JMenuItem nw,opn,sve,svea,ext,fnd,rep,prt,cut,copy,paste;
-	JTextArea t;		JTextField tf,tf1,tf2;
+	JTextArea t;		TextField tf,tf1,tf2;
 	JDialog d,d1,d2,d3;
 	JDialog d11;
 	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9;
@@ -472,7 +472,7 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 			gbc.weightx=1.0;	gbc.weighty=1.0;
 			JLabel l1=new JLabel("Find what:");
 			gbc.gridx=0;		gbc.gridy=0;	d1.add(l1,gbc);
-			tf=new JTextField(16);
+			tf=new TextField(16);
 			gbc.gridx=1;		gbc.gridy=0;	d1.add(tf, gbc);		
 			b4=new JButton("Find Next");			b4.addActionListener(this);
 			gbc.gridx=0;		gbc.gridy=1;	d1.add(b4,gbc);
@@ -512,17 +512,17 @@ class Editor extends WindowAdapter implements ActionListener,MouseListener,KeyLi
 		{
 			t.addMouseListener(this);
 			d2=new JDialog(f,"Replace");
-			d2.setSize(300,100); 
+			d2.setSize(400,200); 
 			d2.setLayout(new GridBagLayout());
 			GridBagConstraints gbc=new GridBagConstraints();
 			gbc.weightx=1.0;	gbc.weighty=1.0;
 			Label l1=new Label("Find what:");
 			gbc.gridx=0;		gbc.gridy=0;	d2.add(l1,gbc);
-			tf1=new JTextField(16);
+			tf1=new TextField(16);
 			gbc.gridx=1;		gbc.gridy=0;	d2.add(tf1, gbc);
 			Label l2=new Label("Replace with:");
 			gbc.gridx=0;		gbc.gridy=1;	d2.add(l2,gbc);
-			tf2=new JTextField(16);
+			tf2=new TextField(16);
 			gbc.gridx=1;		gbc.gridy=1;	d2.add(tf2,gbc);
 			b6=new JButton("Find Next");			b6.addActionListener(this);
 			gbc.gridx=2;		gbc.gridy=0;	d2.add(b6,gbc);
