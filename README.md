@@ -1,2 +1,2 @@
 # Text-Editor
-A simple text-editor application.
+A simple Text-editor application made using Java AWT.
